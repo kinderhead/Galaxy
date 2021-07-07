@@ -3,15 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Ship : MonoBehaviour
 {
-    public float acceleration = 0;
-    public float rotationAcceleration = 0;
-
-    public int maxSpeed = 0;
-    public int maxRotationSpeed = 0;
-
-    public bool warpEnabled = true;
+    public Shipdata data;
 
     public Controller controller;
 
@@ -41,30 +36,30 @@ public class Ship : MonoBehaviour
 
         if (curHorizontalRotation > 0)
         {
-            curHorizontalRotation -= rotationAcceleration;
+            curHorizontalRotation -= data.rotationAcceleration;
         }
         else if (curHorizontalRotation < 0)
         {
-            curHorizontalRotation += rotationAcceleration;
+            curHorizontalRotation += data.rotationAcceleration;
         }
 
         if (curVerticalRotation > 0)
         {
-            curVerticalRotation -= rotationAcceleration;
+            curVerticalRotation -= data.rotationAcceleration;
         }
         else if (curVerticalRotation < 0)
         {
-            curVerticalRotation += rotationAcceleration;
+            curVerticalRotation += data.rotationAcceleration;
             //Debug.Log(curVerticalRotation);
         }
 
         if (curSpeed > 0)
         {
-            curSpeed -= acceleration;
+            curSpeed -= data.acceleration;
         }
         else if (curSpeed < 0)
         {
-            curSpeed += acceleration;
+            curSpeed += data.acceleration;
         }
 
         if (curHorizontalRotation == 0 && curVerticalRotation == 0)
@@ -75,49 +70,49 @@ public class Ship : MonoBehaviour
 
     public void Forward()
     {
-        if (Math.Abs(curSpeed) < maxSpeed)
+        if (Math.Abs(curSpeed) < data.maxSpeed)
         {
-            curSpeed += acceleration * 2;
+            curSpeed += data.acceleration * 2;
         }
     }
 
     public void Back()
     {
-        if (Math.Abs(curSpeed) < maxSpeed)
+        if (Math.Abs(curSpeed) < data.maxSpeed)
         {
-            curSpeed -= acceleration * 2;
+            curSpeed -= data.acceleration * 2;
         }
     }
 
     public void Left()
     {
-        if (Math.Abs(curHorizontalRotation) < maxRotationSpeed)
+        if (Math.Abs(curHorizontalRotation) < data.maxRotationSpeed)
         {
-            curHorizontalRotation -= rotationAcceleration * 2;
+            curHorizontalRotation -= data.rotationAcceleration * 2;
         }
     }
 
     public void Right()
     {
-        if (Math.Abs(curHorizontalRotation) < maxRotationSpeed)
+        if (Math.Abs(curHorizontalRotation) < data.maxRotationSpeed)
         {
-            curHorizontalRotation += rotationAcceleration * 2;
+            curHorizontalRotation += data.rotationAcceleration * 2;
         }
     }
 
     public void Up()
     {
-        if (Math.Abs(curVerticalRotation) < maxRotationSpeed)
+        if (Math.Abs(curVerticalRotation) < data.maxRotationSpeed)
         {
-            curVerticalRotation += rotationAcceleration * 2;
+            curVerticalRotation += data.rotationAcceleration * 2;
         }
     }
 
     public void Down()
     {
-        if (Math.Abs(curVerticalRotation) < maxRotationSpeed)
+        if (Math.Abs(curVerticalRotation) < data.maxRotationSpeed)
         {
-            curVerticalRotation -= rotationAcceleration * 2;
+            curVerticalRotation -= data.rotationAcceleration * 2;
         }
     }
 
