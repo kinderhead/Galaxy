@@ -106,9 +106,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6918018017378702895}
-  - component: {fileID: 4181030878994230941}
   - component: {fileID: 480259592731537580}
   - component: {fileID: 4610903461429826358}
+  - component: {fileID: 2321883236775363148}
   m_Layer: 0
   m_Name: BaseShip
   m_TagString: Untagged
@@ -131,20 +131,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4181030878994230941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9123228905917122061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6297436589ff4bd4fb3efdc0d37b7994, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  forward: 119
-  backward: 115
 --- !u!114 &480259592731537580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,12 +143,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fe3e1ea38aa23d4b8fcd9baa006a0f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 1
-  rotationAcceleration: 0.5
-  maxSpeed: 75
-  maxRotationSpeed: 100
-  warpEnabled: 1
-  controller: {fileID: 4181030878994230941}
+  data:
+    pos: {x: 0, y: 0, z: 0}
+    warpEnabled: 1
+    acceleration: 0
+    rotationAcceleration: 0
+    maxSpeed: 0
+    maxRotationSpeed: 0
+  controller: {fileID: 2321883236775363148}
 --- !u!54 &4610903461429826358
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -179,3 +167,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2321883236775363148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9123228905917122061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6297436589ff4bd4fb3efdc0d37b7994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdSpeed: 0
+  forward: 119
+  backward: 115
+  hold: 304

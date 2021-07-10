@@ -13,5 +13,5 @@ public abstract class Component
 
     public Component() { }
 
-    public abstract void Apply(ref Shipdata ship);
+    public abstract void Apply(Shipdata ship);
 }

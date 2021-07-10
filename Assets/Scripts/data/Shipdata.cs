@@ -15,9 +15,22 @@ public class Shipdata
     public int maxSpeed = 0;
     public int maxRotationSpeed = 0;
 
+    public float maxHullHP = 0;
+    public float maxShieldHP = 0;
+
+    public HeatDamageSeverity tolerableHeatDamage = HeatDamageSeverity.None;
+    public RadiationLevelSeverity tolerableRadiation = RadiationLevelSeverity.None;
+
+    // Do not reset
+    public float hullHP;
+    public float shieldHP;
+
+    bool firstLoad = true;
+
     public Shipdata()
     {
-
+        hullHP = maxHullHP;
+        shieldHP = maxShieldHP;
     }
 
     public Shipdata(List<Component> components)
@@ -28,17 +41,45 @@ public class Shipdata
     public GameObject Create()
     {
         GameObject obj = Object.Instantiate(Main.shipPrefab) as GameObject;
+        obj.GetComponent<Ship>().data = this;
 
-        LoadComponents(obj.GetComponent<Ship>());
+        LoadComponents();
 
         return obj;
     }
 
-    public void LoadComponents(Ship obj)
+    public void LoadComponents()
     {
+        acceleration = 0;
+        rotationAcceleration = 0;
+        maxSpeed = 0;
+        maxRotationSpeed = 0;
+        warpEnabled = true;
+        maxShieldHP = 0;
+        maxHullHP = 0;
+        tolerableHeatDamage = HeatDamageSeverity.None;
+        tolerableRadiation = RadiationLevelSeverity.None;
+
         foreach (Component component in components)
         {
-            component.Apply(ref obj.data);
+            component.Apply(this);
         }
+
+        if (hullHP > maxHullHP)
+        {
+            hullHP = maxHullHP;
+        }
+
+        if (shieldHP > maxShieldHP)
+        {
+            shieldHP = maxShieldHP;
+        }
+
+        if (firstLoad)
+        {
+            hullHP = maxHullHP;
+            shieldHP = maxShieldHP;
+        }
+        firstLoad = false;
     }
 }

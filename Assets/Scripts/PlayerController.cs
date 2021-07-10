@@ -8,9 +8,19 @@ public class PlayerController : Controller
 {
     public KeyCode forward = KeyCode.W;
     public KeyCode backward = KeyCode.S;
+    public KeyCode hold = KeyCode.LeftShift;
 
     public override void Tick(Ship ship)
     {
+        if (Input.GetKey(hold))
+        {
+            holdSpeed = true;
+        }
+        else
+        {
+            holdSpeed = false;
+        }
+
         if (Input.GetKey(forward))
         {
             ship.Forward();
@@ -22,7 +32,6 @@ public class PlayerController : Controller
 
         if (Input.GetMouseButton(0) && !IsPointerOverUIObject())
         {
-            //Debug.Log(Input.GetAxis("Mouse X") + ", " + Input.GetAxis("Mouse Y"));
             Cursor.lockState = CursorLockMode.Locked;
 
             if (Input.GetAxis("Mouse X") > 0)

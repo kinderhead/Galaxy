@@ -14,12 +14,72 @@ public class Ship : MonoBehaviour
     float curHorizontalRotation = 0;
     float curVerticalRotation = 0;
 
-    private Rigidbody rb;
+    public HeatDamageSeverity curHeat;
+    public int heatValue;
+    public RadiationLevelSeverity curRadiation;
+    public int radiationValue;
+
+    Rigidbody rb;
+
+    Dictionary<object, int> heatUpdates = new Dictionary<object, int>();
+    Dictionary<object, int> radiationUpdates = new Dictionary<object, int>();
+
+    public void UpdateHeat(object source, int amount)
+    {
+        if (!heatUpdates.ContainsKey(source))
+        {
+            heatUpdates.Add(source, amount);
+        }
+        else
+        {
+            heatUpdates[source] = amount;
+        }
+
+        RecalculateHeatAndRadiation();
+    }
+
+    public void UpdateRadiation(object source, int amount)
+    {
+        if (!radiationUpdates.ContainsKey(source))
+        {
+            radiationUpdates.Add(source, amount);
+        }
+        else
+        {
+            radiationUpdates[source] = amount;
+        }
+
+        RecalculateHeatAndRadiation();
+    }
+
+    void RecalculateHeatAndRadiation()
+    {
+        heatValue = 0;
+        radiationValue = 0;
+
+        foreach (int amount in heatUpdates.Values)
+        {
+            heatValue += amount;
+        }
+
+        foreach (int amount in radiationUpdates.Values)
+        {
+            radiationValue += amount;
+        }
+
+        curHeat = DamageUtil.GetHeatValue(heatValue);
+        curRadiation = DamageUtil.GetRadiationValue(radiationValue);
+    }
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+    }
+
+    void Clean()
+    {
+        // TODO
     }
 
     void Update()
@@ -55,11 +115,17 @@ public class Ship : MonoBehaviour
 
         if (curSpeed > 0)
         {
-            curSpeed -= data.acceleration;
+            if (!controller.holdSpeed)
+            {
+                curSpeed -= data.acceleration;
+            }
         }
         else if (curSpeed < 0)
         {
-            curSpeed += data.acceleration;
+            if (!controller.holdSpeed)
+            {
+                curSpeed += data.acceleration;
+            }
         }
 
         if (curHorizontalRotation == 0 && curVerticalRotation == 0)

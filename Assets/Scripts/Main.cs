@@ -15,4 +15,9 @@ public class Main : MonoBehaviour
         Components.Load();
         loadedGalaxy = new Galaxy(1, "main");
     }
+
+    public static Galaxy GetGalaxy()
+    {
+        return GameObject.Find("Main Camera").GetComponent<Main>().loadedGalaxy;
+    }
 }
