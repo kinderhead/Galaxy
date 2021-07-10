@@ -9,6 +9,7 @@ public class Ship : MonoBehaviour
     public Shipdata data;
 
     public Controller controller;
+    public ShieldHelper shield;
 
     float curSpeed = 0;
     float curHorizontalRotation = 0;
@@ -23,6 +24,16 @@ public class Ship : MonoBehaviour
 
     Dictionary<object, int> heatUpdates = new Dictionary<object, int>();
     Dictionary<object, int> radiationUpdates = new Dictionary<object, int>();
+
+    public void Damage(float num)
+    {
+        data.Damage(num);
+    }
+
+    public void Destroy()
+    {
+        Debug.Log("Ship destroyed");
+    }
 
     public void UpdateHeat(object source, int amount)
     {
@@ -57,10 +68,15 @@ public class Ship : MonoBehaviour
         heatValue = 0;
         radiationValue = 0;
 
+        int val = 0;
         foreach (int amount in heatUpdates.Values)
         {
-            heatValue += amount;
+            if (val < amount)
+            {
+                val = amount;
+            }
         }
+        heatValue = val;
 
         foreach (int amount in radiationUpdates.Values)
         {
@@ -75,11 +91,6 @@ public class Ship : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-    }
-
-    void Clean()
-    {
-        // TODO
     }
 
     void Update()
@@ -128,9 +139,10 @@ public class Ship : MonoBehaviour
             }
         }
 
-        if (curHorizontalRotation == 0 && curVerticalRotation == 0)
+        if ((int) curHeat > (int) data.tolerableHeatDamage)
         {
-            
+            Debug.Log("Taking heat damage");
+            Damage(Time.deltaTime * 15f);
         }
     }
 

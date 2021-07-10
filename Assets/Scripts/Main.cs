@@ -9,15 +9,18 @@ public class Main : MonoBehaviour
     public static GameObject shipPrefab;
     public GameObject prefab;
 
+    static Main globalMain;
+
     private void Awake()
     {
         shipPrefab = prefab;
         Components.Load();
         loadedGalaxy = new Galaxy(1, "main");
+        globalMain = this;
     }
 
     public static Galaxy GetGalaxy()
     {
-        return GameObject.Find("Main Camera").GetComponent<Main>().loadedGalaxy;
+        return globalMain.loadedGalaxy;
     }
 }

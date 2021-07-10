@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -12,6 +13,14 @@ public class PlayerController : Controller
 
     public override void Tick(Ship ship)
     {
+        var hullBar = GameObject.Find("Health").GetComponent<HealthBar>();
+        hullBar.max = (int) ship.data.maxHullHP;
+        hullBar.current = (int) Math.Ceiling(ship.data.hullHP);
+
+        var shieldBar = GameObject.Find("Shield").GetComponent<HealthBar>();
+        shieldBar.max = (int)ship.data.maxShieldHP;
+        shieldBar.current = (int)Math.Ceiling(ship.data.shieldHP);
+
         if (Input.GetKey(hold))
         {
             holdSpeed = true;
